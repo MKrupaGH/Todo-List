@@ -1,14 +1,8 @@
-import Project from "./Lists";
-import Storage from "./Storage";
-export default class UI {
-  //Layout
-  static loadHomePage() {
-    UI.loadPage();
-    UI.addProjectView();
-    UI.addEventListeners();
-  }
-
-  static loadPage = () => {
+import Project from "./Project";
+import { Storage } from "./Storage";
+import Task from "./Task";
+const UI = () => {
+  const loadPage = (() => {
     const panel = document.createElement("div");
     panel.classList.add("site");
     panel.innerHTML = `
@@ -18,12 +12,12 @@ export default class UI {
         <div class='lists'>
             <h2>Project's list</h2>
             <div class='projects-list'>
-
+              <form></form>
+              <div class="projects-container"></div>
             </div>
         </div>
         <div class='task-menu'>
             <div class='list-title'>
-
             </div>
             <div class="tasks-list">
             
@@ -34,48 +28,69 @@ export default class UI {
         </div>
         `;
     document.querySelector("body").appendChild(panel);
-  };
+  })();
 
-  static addProjectView = () => {
-    const projectsList = document.querySelector(".projects-list");
-    const addForm = document.createElement("form");
-
+  const addProjectView = (() => {
+    const addForm = document.querySelector("form");
     addForm.innerHTML = `
         <input type="text" name="title" id="title" placeholder="Title..." required>
         <input type="submit" value="Add project"> 
       `;
+  })();
 
-    projectsList.appendChild(addForm);
-  };
-
-  //Project title
-  static createProject = () => {
+  //Project UI and Title
+  const createProject = () => {
     const $title = document.querySelector("#title");
-    Storage.checkLocalStorage();
-    Storage.updateStorage(new Project($title.value));
-    UI.ProjectView(Storage.checkLocalStorage());
+    //jak zrobic referencje przez nazwe, bez wywolywania do zmiennej?
+    //IIFE i wtedy tylko refer?
+
+    const localFcn = Storage();
+    localFcn.pushToArr(Project($title.value));
+    localFcn.updateStorage();
+
+    ProjectView(localFcn.getStorage());
   };
 
-  static ProjectView = (data) => {
+  const ProjectView = (data) => {
+    const container = document.querySelector(".projects-container");
+    container.textContent = "";
     data.forEach((obj, index) => {
       const newProjectView = document.createElement("div");
       newProjectView.classList.add("project-view");
-
+      newProjectView.setAttribute("pro-num", `${index}`);
       newProjectView.innerHTML = `
-            <button class="project-to-tasks" pro-num="${index}">${obj.title}</button>
+            <div class="pro-name" ">
+              <button class="project-to-tasks" >${obj.name}</button>
+            </div>
+            <div class="btn-func">
+              <button class="delete">Delete</button>
+              <button class="edit">Edit</button>
+            </div>
+            
         `;
-      document.querySelector(".projects-list").appendChild(newProjectView);
+      container.appendChild(newProjectView);
     });
   };
 
+  //Check storage onLoad
+
+  const generateStorage = (() => {
+    Storage().checkStorage();
+    const values = Storage().getStorage();
+    ProjectView(values);
+  })();
+
   //Event listeners
 
-  static addEventListeners = () => {
+  const addEventListeners = (() => {
     const $form = document
       .querySelector("form")
       .addEventListener("submit", (e) => {
         e.preventDefault();
-        UI.createProject();
+
+        createProject();
       });
-  };
-}
+  })();
+};
+
+export default UI;

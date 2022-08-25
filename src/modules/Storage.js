@@ -1,11 +1,30 @@
-export default class Storage {
-  static updateStorage(storage) {
-    localStorage.setItem("storage", JSON.stringify(storage));
+let arrStorage = [];
+
+export const Storage = () => {
+  function getStorage() {
+    return arrStorage;
   }
 
-  static checkLocalStorage() {
+  function pushToArr(project) {
+    arrStorage.push(project);
+  }
+
+  function updateStorage() {
+    localStorage.setItem("storage", JSON.stringify(arrStorage));
+  }
+
+  function checkStorage() {
     if (localStorage.getItem("storage")) {
-      return JSON.parse(localStorage.getItem("storage"));
+      arrStorage = JSON.parse(localStorage.getItem("storage"));
+    } else {
+      arrStorage = [];
     }
   }
-}
+
+  return {
+    getStorage,
+    pushToArr,
+    updateStorage,
+    checkStorage,
+  };
+};

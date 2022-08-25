@@ -41,6 +41,10 @@
     }
 
     .projects-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       form {
         margin: 15px;
         padding: 10px;
@@ -77,6 +81,25 @@
           border-radius: 5px;
           font-size: 1.2rem;
           color: var(--darkGrey);
+        }
+      }
+
+      .project-view {
+        display: grid;
+        grid-template: 1fr 1fr / 1fr 1fr ;
+        gap: 10px;
+        width: 214px;
+        margin-top: 20px;
+        .pro-name{
+          grid-area: 1/1/2/3;
+          .project-to-tasks{
+            width: 100%;
+          }
+          
+        }
+
+        .btn-func{
+          grid-area: 2/1/3/3;
         }
       }
     }
