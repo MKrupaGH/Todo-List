@@ -18,9 +18,28 @@ const UI = () => {
         </div>
         <div class='task-menu'>
             <div class='list-title'>
+              <h1></h1>
             </div>
-            <div class="tasks-list">
-            
+            <div class="task-add-menu">
+              <form style="display:none">
+
+              </form>
+            </div>
+            <div class="tasks-list" style="display:none">
+              <table>
+                  <thead>
+                      <th>Name</th>
+                      <th>Status</th>
+                      <th>Priority</th>
+                      <th>Date</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
+                      <th></th>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+              </table>
             </div>
         </div>
         <div class="footer">
@@ -59,17 +78,20 @@ const UI = () => {
       newProjectView.classList.add("project-view");
       newProjectView.setAttribute("pro-num", `${index}`);
       newProjectView.innerHTML = `
-            <div class="pro-name" ">
               <button class="project-to-tasks" >${obj.name}</button>
-            </div>
-            <div class="btn-func">
               <button class="delete">Delete</button>
               <button class="edit">Edit</button>
-            </div>
-            
         `;
       container.appendChild(newProjectView);
     });
+  };
+
+  //Tasks UI and func
+
+  const TaskView = (e) => {
+    const taskTitle = document.querySelector('.list-title h1')
+    const value = e.target.textContent;
+    taskTitle.textContent = value;
   };
 
   //Check storage onLoad
@@ -87,8 +109,12 @@ const UI = () => {
       .querySelector("form")
       .addEventListener("submit", (e) => {
         e.preventDefault();
-
         createProject();
+      });
+    const $projectBtns = document
+      .querySelectorAll(".project-to-tasks")
+      .forEach((btn) => {
+        btn.addEventListener("click", TaskView);
       });
   })();
 };

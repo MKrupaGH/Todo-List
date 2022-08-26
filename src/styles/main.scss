@@ -81,25 +81,52 @@
           border-radius: 5px;
           font-size: 1.2rem;
           color: var(--darkGrey);
+
+          &:hover{
+            scale: 1.1;
+            cursor: pointer;
+          }
         }
       }
+      .projects-container {
+        .project-view {
+          display: grid;
+          grid-template: 1fr 1fr / 1fr 1fr;
+          gap: 10px;
+          width: 214px;
+          margin-top: 20px;
+          .project-to-tasks,
+          .delete,
+          .edit {
+            grid-area: 1/1/2/3;
+            border: none;
+            background-color: var(--white);
+            color: var(--darkGrey);
+            font-size: 1.6rem;
+            border-radius: 10px;
 
-      .project-view {
-        display: grid;
-        grid-template: 1fr 1fr / 1fr 1fr ;
-        gap: 10px;
-        width: 214px;
-        margin-top: 20px;
-        .pro-name{
-          grid-area: 1/1/2/3;
-          .project-to-tasks{
-            width: 100%;
+            &:hover{
+              scale: 1.1;
+              cursor: pointer;
+            }
           }
-          
+
+
+          .delete,
+          .edit {
+            grid-area: 2/1/3/2;
+            background-color: lightcoral;
+            font-size: 1.3rem;
+          }
+
+          .edit {
+            grid-area: 2/2/3/3;
+            background-color: yellowgreen;
+          }
         }
 
-        .btn-func{
-          grid-area: 2/1/3/3;
+        .project-view:last-child {
+          margin-bottom: 20px;
         }
       }
     }
