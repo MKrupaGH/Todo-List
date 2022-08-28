@@ -13,7 +13,6 @@
 
 .site {
   height: 100vh;
-  width: 100vw;
   display: grid;
   grid-template: 100px 1fr 50px / 2fr 4fr;
 
@@ -82,22 +81,32 @@
           font-size: 1.2rem;
           color: var(--darkGrey);
 
-          &:hover{
+          &:hover {
             scale: 1.1;
             cursor: pointer;
           }
         }
       }
       .projects-container {
+        max-height: calc(100vh - 100px - 50px - 107px - 48px - 40px);
+        overflow-y: scroll;
+        
+        &::-webkit-scrollbar{
+          display: none;
+        }
+
         .project-view {
           display: grid;
           grid-template: 1fr 1fr / 1fr 1fr;
           gap: 10px;
           width: 214px;
-          margin-top: 20px;
+          padding: 10px;
+
           .project-to-tasks,
           .delete,
-          .edit {
+          .edit,
+          #inputChange {
+            text-align: center;
             grid-area: 1/1/2/3;
             border: none;
             background-color: var(--white);
@@ -105,12 +114,11 @@
             font-size: 1.6rem;
             border-radius: 10px;
 
-            &:hover{
+            &:hover {
               scale: 1.1;
               cursor: pointer;
             }
           }
-
 
           .delete,
           .edit {
@@ -135,6 +143,15 @@
   .task-menu {
     grid-area: 2/2/3/3;
     background-color: var(--white);
+      .list-title{
+        text-align: center;
+        margin-top: 20px;
+        h1{
+          font-size: 2.5rem;
+          color: var(--darkGrey);
+        }
+      }
+    
   }
 
   .footer {

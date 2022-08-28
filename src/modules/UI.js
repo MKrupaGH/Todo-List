@@ -51,6 +51,7 @@ const UI = () => {
 
   const addProjectView = (() => {
     const addForm = document.querySelector("form");
+    fncForListener("form", "submit", createProject);
     addForm.innerHTML = `
         <input type="text" name="title" id="title" placeholder="Title..." required>
         <input type="submit" value="Add project"> 
@@ -58,19 +59,43 @@ const UI = () => {
   })();
 
   //Project UI and Title
-  const createProject = () => {
+  function createProject() {
     const $title = document.querySelector("#title");
     //jak zrobic referencje przez nazwe, bez wywolywania do zmiennej?
     //IIFE i wtedy tylko refer?
-
     const localFcn = Storage();
     localFcn.pushToArr(Project($title.value));
     localFcn.updateStorage();
-
+    $title.value = "";
     ProjectView(localFcn.getStorage());
-  };
+  }
 
-  const ProjectView = (data) => {
+  function findIndex(e) {
+    return e.target.parentNode.getAttribute("pro-num");
+  }
+
+  function deleteProject(e) {
+    const arr = Storage().getStorage();
+    arr.splice(findIndex(e), 1);
+    e.target.parentElement.remove();
+    Storage().updateStorage();
+    Storage().checkStorage();
+    ProjectView(Storage().getStorage());
+  }
+
+  function editProject(e) {
+    let inputEdit = document.createElement("input");
+    //inputEdit = `<input value=${e.target.parentElement.firstElementChild.textContent} name="name" id="inputChange">`;
+    inputEdit.setAttribute("id", "inputChange");
+    inputEdit.value = e.target.parentElement.firstElementChild.textContent;
+    e.target.parentElement.firstElementChild.replaceWith(inputEdit);
+
+    document.querySelector("#inputChange").addEventListener("focusout", (e) => {
+      console.log(e.target.parentNode);
+    });
+  }
+
+  function ProjectView(data) {
     const container = document.querySelector(".projects-container");
     container.textContent = "";
     data.forEach((obj, index) => {
@@ -82,17 +107,21 @@ const UI = () => {
               <button class="delete">Delete</button>
               <button class="edit">Edit</button>
         `;
+
       container.appendChild(newProjectView);
     });
-  };
+    fncForListener(".project-to-tasks", "click", TaskView);
+    fncForListener(".delete", "click", deleteProject);
+    fncForListener(".edit", "click", editProject);
+  }
 
   //Tasks UI and func
 
-  const TaskView = (e) => {
-    const taskTitle = document.querySelector('.list-title h1')
+  function TaskView(e) {
+    const taskTitle = document.querySelector(".list-title h1");
     const value = e.target.textContent;
     taskTitle.textContent = value;
-  };
+  }
 
   //Check storage onLoad
 
@@ -104,7 +133,7 @@ const UI = () => {
 
   //Event listeners
 
-  const addEventListeners = (() => {
+  /*const addEventListeners = (() => {
     const $form = document
       .querySelector("form")
       .addEventListener("submit", (e) => {
@@ -116,7 +145,20 @@ const UI = () => {
       .forEach((btn) => {
         btn.addEventListener("click", TaskView);
       });
-  })();
+  })();*/
+
+  function fncForListener(typeOfEle, typeOfListener, callFcn) {
+    document.querySelectorAll(typeOfEle).forEach((type) =>
+      type.addEventListener(typeOfListener, (e) => {
+        if ((typeOfEle = "form")) {
+          e.preventDefault();
+          callFcn(e);
+        } else {
+          callFcn(e);
+        }
+      })
+    );
+  }
 };
 
 export default UI;
