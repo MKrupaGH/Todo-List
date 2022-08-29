@@ -20,10 +20,23 @@ const UI = () => {
             <div class='list-title'>
               <h1></h1>
             </div>
-            <div class="task-add-menu">
-              <form style="display:none">
-
+            <div class="task-add-menu" style="display:none">
+              <form id="myForm">
+                <input type="text" id="taskName" placeholder="Task name..." name="name">
+                <div class="checkBox">
+                  <label for="status">Done</label>
+                  <input type="checkbox" id="status" name='status' value="done">
+                </div>
+                
+                <select name="priority" id="priority">
+                  <option value="urgent">Urgent</option>
+                  <option value="medium">Medium</option>
+                  <option value="unimportant">Unimportant</option>
+                </select>
+                <input type="date" id="date" name="date">
+                
               </form>
+              <input type='submit' value='Add task' form="myForm">
             </div>
             <div class="tasks-list" style="display:none">
               <table>
@@ -34,7 +47,6 @@ const UI = () => {
                       <th>Date</th>
                       <th>Edit</th>
                       <th>Delete</th>
-                      <th></th>
                   </thead>
                   <tbody>
 
@@ -86,12 +98,18 @@ const UI = () => {
   function editProject(e) {
     let inputEdit = document.createElement("input");
     //inputEdit = `<input value=${e.target.parentElement.firstElementChild.textContent} name="name" id="inputChange">`;
+    inputEdit.focus();
     inputEdit.setAttribute("id", "inputChange");
     inputEdit.value = e.target.parentElement.firstElementChild.textContent;
     e.target.parentElement.firstElementChild.replaceWith(inputEdit);
-
+    inputEdit.focus();
     document.querySelector("#inputChange").addEventListener("focusout", (e) => {
-      console.log(e.target.parentNode);
+      console.log(e.target.parentNode.getAttribute("pro-num"));
+      const arr = Storage().getStorage();
+      arr[findIndex(e)]["name"] = e.target.value;
+      Storage().updateStorage();
+      Storage().checkStorage();
+      ProjectView(Storage().getStorage());
     });
   }
 
@@ -117,7 +135,16 @@ const UI = () => {
 
   //Tasks UI and func
 
+  function createTask() {
+    const $taskName = document.querySelector("#taskName");
+  }
+
   function TaskView(e) {
+    const $addMenu = document.querySelector(".task-add-menu");
+    const $tasksList = document.querySelector(".tasks-list");
+    $addMenu.style.display = "flex";
+    $tasksList.style.display = "flex";
+
     const taskTitle = document.querySelector(".list-title h1");
     const value = e.target.textContent;
     taskTitle.textContent = value;

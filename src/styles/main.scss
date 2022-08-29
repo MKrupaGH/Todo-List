@@ -63,14 +63,14 @@
           border-radius: 5px;
           font-size: 1.2rem;
           width: 80%;
-        }
 
-        input[type="text"]:focus {
-          border: none;
-          background-color: transparent;
-          resize: none;
-          outline: none;
-          background-color: var(--white);
+          &:focus {
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            background-color: var(--white);
+          }
         }
 
         input[type="submit"] {
@@ -90,8 +90,8 @@
       .projects-container {
         max-height: calc(100vh - 100px - 50px - 107px - 48px - 40px);
         overflow-y: scroll;
-        
-        &::-webkit-scrollbar{
+
+        &::-webkit-scrollbar {
           display: none;
         }
 
@@ -143,15 +143,144 @@
   .task-menu {
     grid-area: 2/2/3/3;
     background-color: var(--white);
-      .list-title{
-        text-align: center;
+    .list-title {
+      text-align: center;
+      margin-top: 20px;
+      h1 {
+        font-size: 2.5rem;
+        color: var(--darkGrey);
+      }
+    }
+    .task-add-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+      form {
+        display: grid;
+        width: 80%;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        box-sizing: border-box;
+        color: var(--darkGrey);
+        #taskName {
+          border: none;
+          font-size: 1.5rem;
+          background-color: var(--lightGrey);
+          padding: 5px;
+          border-radius: 5px;
+
+          &:focus {
+            border: none;
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            background-color: var(--white);
+          }
+        }
+
+        .checkBox {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          background-color: var(--lightGrey);
+          border-radius: 5px;
+          #status,
+          label[for="status"] {
+            border: none;
+            font-size: 1.5rem;
+          }
+          #status {
+            display: grid;
+            place-content: center;
+            appearance: none;
+            background-color: var(--white);
+            border-radius: 5px;
+            &::before {
+              content: "";
+              width: 0.65em;
+              height: 0.65em;
+              transform: scale(0);
+              transition: 120ms transform ease-in-out;
+              border-radius: 5px;
+              box-shadow: inset 1em 1em green;
+            }
+
+            &:checked::before {
+              transform: scale(0.7);
+            }
+          }
+        }
+
+        #priority {
+          border: none;
+          background-color: var(--lightGrey);
+          font-size: 1.5rem;
+          color: var(--darkGrey);
+          padding: 5px;
+          border-radius: 5px;
+
+          &:focus {
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            background-color: var(--white);
+          }
+        }
+
+        #date {
+          border: none;
+          background-color: var(--lightGrey);
+          font-size: 1.5rem;
+          color: var(--darkGrey);
+          padding: 5px;
+          border-radius: 5px;
+
+          &:focus {
+            background-color: transparent;
+            resize: none;
+            outline: none;
+            background-color: var(--white);
+          }
+        }
+      }
+      input[type="submit"] {
         margin-top: 20px;
-        h1{
-          font-size: 2.5rem;
+        padding: 10px;
+        background-color: var(--lightGrey);
+        border: none;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        color: var(--darkGrey);
+        font-weight: bold;
+
+        &:hover {
+          scale: 1.1;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .tasks-list {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      table {
+        width: 100%;
+        table-layout: fixed;
+        text-align: left;
+        border-spacing: 2em;
+
+        th,
+        tr,
+        td {
+          width: auto;
+          font-size: 1.5rem;
           color: var(--darkGrey);
         }
       }
-    
+    }
   }
 
   .footer {
