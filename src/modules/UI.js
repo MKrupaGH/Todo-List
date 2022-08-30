@@ -12,7 +12,7 @@ const UI = () => {
         <div class='lists'>
             <h2>Project's list</h2>
             <div class='projects-list'>
-              <form></form>
+              <form id="projectForm"></form>
               <div class="projects-container"></div>
             </div>
         </div>
@@ -22,13 +22,13 @@ const UI = () => {
             </div>
             <div class="task-add-menu" style="display:none">
               <form id="myForm">
-                <input type="text" id="taskName" placeholder="Task name..." name="name">
+                <input type="text" id="taskName" placeholder="Task name..." name="name" required>
                 <div class="checkBox">
                   <label for="status">Done</label>
-                  <input type="checkbox" id="status" name='status' value="done">
+                  <input type="checkbox" id="status" name='status'>
                 </div>
                 
-                <select name="priority" id="priority">
+                <select name="priority" id="priority" required>
                   <option value="urgent">Urgent</option>
                   <option value="medium">Medium</option>
                   <option value="unimportant">Unimportant</option>
@@ -62,14 +62,19 @@ const UI = () => {
   })();
 
   const addProjectView = (() => {
-    const addForm = document.querySelector("form");
-    fncForListener("form", "submit", createProject);
+    const addForm = document.querySelector("#projectForm");
+    fncForListener("#projectForm", "submit", createProject);
     addForm.innerHTML = `
         <input type="text" name="title" id="title" placeholder="Title..." required>
         <input type="submit" value="Add project"> 
       `;
   })();
 
+  //help function
+
+  function findIndex(e) {
+    return e.target.parentNode.getAttribute("pro-num");
+  }
   //Project UI and Title
   function createProject() {
     const $title = document.querySelector("#title");
@@ -80,10 +85,6 @@ const UI = () => {
     localFcn.updateStorage();
     $title.value = "";
     ProjectView(localFcn.getStorage());
-  }
-
-  function findIndex(e) {
-    return e.target.parentNode.getAttribute("pro-num");
   }
 
   function deleteProject(e) {
@@ -97,7 +98,6 @@ const UI = () => {
 
   function editProject(e) {
     let inputEdit = document.createElement("input");
-    //inputEdit = `<input value=${e.target.parentElement.firstElementChild.textContent} name="name" id="inputChange">`;
     inputEdit.focus();
     inputEdit.setAttribute("id", "inputChange");
     inputEdit.value = e.target.parentElement.firstElementChild.textContent;
@@ -131,12 +131,29 @@ const UI = () => {
     fncForListener(".project-to-tasks", "click", TaskView);
     fncForListener(".delete", "click", deleteProject);
     fncForListener(".edit", "click", editProject);
+    fncForListener("#myForm", "submit", createTask);
   }
 
   //Tasks UI and func
 
-  function createTask() {
+  function createTask(e) {
     const $taskName = document.querySelector("#taskName");
+    const $status = document.querySelector("#status");
+    const $priority = document.querySelector("#priority");
+    const $date = document.querySelector("#date");
+
+    const newTask = Task(
+      $taskName.value,
+      $status.checked,
+      $priority.value,
+      $date.value
+    );
+
+    const arr = Storage().getStorage();
+    arr[findIndex(e)]["todoList"].push(newTask);
+    Storage().updateStorage();
+    Storage().checkStorage();
+    TaskView;
   }
 
   function TaskView(e) {
@@ -145,9 +162,34 @@ const UI = () => {
     $addMenu.style.display = "flex";
     $tasksList.style.display = "flex";
 
+    $addMenu.setAttribute("pro-num", findIndex(e));
+
     const taskTitle = document.querySelector(".list-title h1");
     const value = e.target.textContent;
     taskTitle.textContent = value;
+
+    //View of ready tasks
+
+    const $taskList = document.querySelector("tbody");
+    $taskList.textContent = "";
+    const arr = Storage().getStorage();
+    arr[findIndex(e)]["todoList"].forEach((task, index) => {
+      const bookListed = `
+      <tr>
+        <td>${task.name}</td>
+        <td>${task.status}</td>
+        <td>${task.priority}</td>
+        <td>${task.date}</td>
+        <td>
+        <button class="change" data-value="${index}">Edit</button>
+        </td>
+        <td>
+        <button class="delete" data-value="${index}">Delete</button>
+        </td>
+      </tr> `;
+
+      $taskList.insertAdjacentHTML("afterbegin", bookListed);
+    });
   }
 
   //Check storage onLoad

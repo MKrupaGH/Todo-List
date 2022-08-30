@@ -275,9 +275,13 @@
         th,
         tr,
         td {
-          width: auto;
+          width: flex;
           font-size: 1.5rem;
           color: var(--darkGrey);
+        }
+
+        td{
+          min-width: 100px;
         }
       }
     }
