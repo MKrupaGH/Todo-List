@@ -80,20 +80,21 @@ const UI = () => {
     const $title = document.querySelector("#title");
     //jak zrobic referencje przez nazwe, bez wywolywania do zmiennej?
     //IIFE i wtedy tylko refer?
-    const localFcn = Storage();
-    localFcn.pushToArr(Project($title.value));
-    localFcn.updateStorage();
+    Storage.pushToArr(Project($title.value));
     $title.value = "";
-    ProjectView(localFcn.getStorage());
+    Storage.updateStorage();
+    Storage.checkStorage();
+    ProjectView(Storage.getStorage());
   }
 
   function deleteProject(e) {
-    const arr = Storage().getStorage();
+    const arr = Storage.getStorage();
     arr.splice(findIndex(e), 1);
+
     e.target.parentElement.remove();
-    Storage().updateStorage();
-    Storage().checkStorage();
-    ProjectView(Storage().getStorage());
+    Storage.updateStorage();
+    Storage.checkStorage();
+    ProjectView(Storage.getStorage());
   }
 
   function editProject(e) {
@@ -105,11 +106,12 @@ const UI = () => {
     inputEdit.focus();
     document.querySelector("#inputChange").addEventListener("focusout", (e) => {
       console.log(e.target.parentNode.getAttribute("pro-num"));
-      const arr = Storage().getStorage();
+      const arr = Storage.getStorage();
       arr[findIndex(e)]["name"] = e.target.value;
-      Storage().updateStorage();
-      Storage().checkStorage();
-      ProjectView(Storage().getStorage());
+      Storage.updateStorage();
+      Storage.checkStorage();
+      TaskView(e);
+      ProjectView(Storage.getStorage());
     });
   }
 
@@ -128,15 +130,18 @@ const UI = () => {
 
       container.appendChild(newProjectView);
     });
+    
     fncForListener(".project-to-tasks", "click", TaskView);
     fncForListener(".delete", "click", deleteProject);
     fncForListener(".edit", "click", editProject);
     fncForListener("#myForm", "submit", createTask);
+    Storage.checkStorage();
   }
 
   //Tasks UI and func
 
   function createTask(e) {
+    console.log("createTask - work");
     const $taskName = document.querySelector("#taskName");
     const $status = document.querySelector("#status");
     const $priority = document.querySelector("#priority");
@@ -148,14 +153,15 @@ const UI = () => {
       $priority.value,
       $date.value
     );
-    const arr = Storage().getStorage();
+    const arr = Storage.getStorage();
     arr[findIndex(e)]["todoList"].push(newTask);
-    Storage().updateStorage();
-    Storage().checkStorage();
+    Storage.updateStorage();
+    Storage.checkStorage();
     TaskView(e);
   }
 
   function TaskView(e) {
+    console.log("Task view - Work");
     const $addMenu = document.querySelector(".task-add-menu");
     const $tasksList = document.querySelector(".tasks-list");
     $addMenu.style.display = "flex";
@@ -170,11 +176,13 @@ const UI = () => {
     //View of ready tasks
 
     const $taskList = document.querySelector("tbody");
-    $taskList.textContent = "";
-    const arr = Storage().getStorage();
-    arr[findIndex(e)]["todoList"].forEach((task, index) => {
-      taskTitle.textContent = arr[findIndex(e)].name;
 
+    Storage.checkStorage();
+    const arr = Storage.getStorage();
+
+    taskTitle.textContent = arr[findIndex(e)].name;
+    $taskList.textContent = "";
+    arr[findIndex(e)]["todoList"].forEach((task, index) => {
       const bookListed = `
       <tr>
         <td>${task.name}</td>
@@ -196,8 +204,8 @@ const UI = () => {
   //Check storage onLoad
 
   const generateStorage = (() => {
-    Storage().checkStorage();
-    const values = Storage().getStorage();
+    Storage.checkStorage();
+    const values = Storage.getStorage();
     ProjectView(values);
   })();
 

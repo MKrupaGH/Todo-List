@@ -1,6 +1,6 @@
 let arrStorage = [];
 
-export const Storage = () => {
+export const Storage = (() => {
   function getStorage() {
     return arrStorage;
   }
@@ -27,4 +27,4 @@ export const Storage = () => {
     updateStorage,
     checkStorage,
   };
-};
+})();

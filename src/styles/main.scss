@@ -283,6 +283,30 @@
         td{
           min-width: 100px;
         }
+
+        td .change, .delete{
+          text-align: center;
+            border: none;
+            background-color: var(--white);
+            color: var(--darkGrey);
+            font-size: 1.6rem;
+            border-radius: 10px;
+            padding: 5px;
+            &:hover {
+              scale: 1.1;
+              cursor: pointer;
+            }
+        }
+
+        td .change{
+          background-color: yellowgreen;
+          color: yellowgreen;
+        }
+
+        td .delete{
+          background-color: lightcoral;
+          color: lightcoral;
+        }
       }
     }
   }
