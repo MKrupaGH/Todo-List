@@ -148,12 +148,11 @@ const UI = () => {
       $priority.value,
       $date.value
     );
-
     const arr = Storage().getStorage();
     arr[findIndex(e)]["todoList"].push(newTask);
     Storage().updateStorage();
     Storage().checkStorage();
-    TaskView;
+    TaskView(e);
   }
 
   function TaskView(e) {
@@ -165,8 +164,8 @@ const UI = () => {
     $addMenu.setAttribute("pro-num", findIndex(e));
 
     const taskTitle = document.querySelector(".list-title h1");
-    const value = e.target.textContent;
-    taskTitle.textContent = value;
+    //const value = e.target.textContent;
+    //taskTitle.textContent = value;
 
     //View of ready tasks
 
@@ -174,6 +173,8 @@ const UI = () => {
     $taskList.textContent = "";
     const arr = Storage().getStorage();
     arr[findIndex(e)]["todoList"].forEach((task, index) => {
+      taskTitle.textContent = arr[findIndex(e)].name;
+
       const bookListed = `
       <tr>
         <td>${task.name}</td>
