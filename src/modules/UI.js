@@ -81,6 +81,7 @@ const UI = () => {
     //jak zrobic referencje przez nazwe, bez wywolywania do zmiennej?
     //IIFE i wtedy tylko refer?
     Storage.pushToArr(Project($title.value));
+    console.log();
     $title.value = "";
     Storage.updateStorage();
     Storage.checkStorage();
@@ -130,7 +131,7 @@ const UI = () => {
 
       container.appendChild(newProjectView);
     });
-    
+
     fncForListener(".project-to-tasks", "click", TaskView);
     fncForListener(".delete", "click", deleteProject);
     fncForListener(".edit", "click", editProject);
