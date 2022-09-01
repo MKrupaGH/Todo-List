@@ -1,6 +1,11 @@
 import Project from "./Project";
 import { Storage } from "./Storage";
 import Task from "./Task";
+
+import { v4 as uuidv4 } from "uuid";
+
+//nazwa Main js
+// dodac id do Projectu (UUidv4)
 const UI = () => {
   const loadPage = (() => {
     const panel = document.createElement("div");
@@ -63,57 +68,69 @@ const UI = () => {
 
   const addProjectView = (() => {
     const addForm = document.querySelector("#projectForm");
-    fncForListener("#projectForm", "submit", createProject);
+    console.log();
+    fncForListener("#projectForm", "submit", Project().createProject());
     addForm.innerHTML = `
         <input type="text" name="title" id="title" placeholder="Title..." required>
         <input type="submit" value="Add project"> 
       `;
   })();
 
+  
+
+  
+
   //help function
 
-  function findIndex(e) {
+  /*function findIndex(e) {
     return e.target.parentNode.getAttribute("pro-num");
   }
   //Project UI and Title
-  function createProject() {
+
+  //leci do Project
+  /*function createProject() {
     const $title = document.querySelector("#title");
-    //jak zrobic referencje przez nazwe, bez wywolywania do zmiennej?
-    //IIFE i wtedy tylko refer?
-    const localFcn = Storage();
-    localFcn.pushToArr(Project($title.value));
-    localFcn.updateStorage();
+
+    Storage.pushToArr(Project($title.value));
+
     $title.value = "";
-    ProjectView(localFcn.getStorage());
+
+    Storage.updateStorage();
+
+    Storage.checkStorage();
+
+    ProjectView(Storage.getStorage());
   }
 
-  function deleteProject(e) {
-    const arr = Storage().getStorage();
+  /*function deleteProject(e) {
+    const arr = Storage.getStorage();
     arr.splice(findIndex(e), 1);
+
     e.target.parentElement.remove();
-    Storage().updateStorage();
-    Storage().checkStorage();
-    ProjectView(Storage().getStorage());
+    Storage.updateStorage();
+    Storage.checkStorage();
+    ProjectView(Storage.getStorage());
   }
 
-  function editProject(e) {
+  /*function editProject(e) {
     let inputEdit = document.createElement("input");
     inputEdit.focus();
     inputEdit.setAttribute("id", "inputChange");
     inputEdit.value = e.target.parentElement.firstElementChild.textContent;
     e.target.parentElement.firstElementChild.replaceWith(inputEdit);
     inputEdit.focus();
-    document.querySelector("#inputChange").addEventListener("focusout", (e) => {
+    inputEdit.addEventListener("focusout", (e) => {
       console.log(e.target.parentNode.getAttribute("pro-num"));
-      const arr = Storage().getStorage();
+      const arr = Storage.getStorage();
       arr[findIndex(e)]["name"] = e.target.value;
-      Storage().updateStorage();
-      Storage().checkStorage();
-      ProjectView(Storage().getStorage());
+      Storage.updateStorage();
+      Storage.checkStorage();
+      TaskView(e);
+      ProjectView(Storage.getStorage());
     });
   }
-
-  function ProjectView(data) {
+  //leci do konstruktora
+  /*function ProjectView(data) {
     const container = document.querySelector(".projects-container");
     container.textContent = "";
     data.forEach((obj, index) => {
@@ -128,15 +145,19 @@ const UI = () => {
 
       container.appendChild(newProjectView);
     });
+
     fncForListener(".project-to-tasks", "click", TaskView);
     fncForListener(".delete", "click", deleteProject);
     fncForListener(".edit", "click", editProject);
     fncForListener("#myForm", "submit", createTask);
+    Storage.checkStorage();
   }
 
   //Tasks UI and func
-
-  function createTask(e) {
+  //leci do task
+  //do task dodaje id
+  /*function createTask(e) {
+    console.log("createTask - work");
     const $taskName = document.querySelector("#taskName");
     const $status = document.querySelector("#status");
     const $priority = document.querySelector("#priority");
@@ -148,15 +169,15 @@ const UI = () => {
       $priority.value,
       $date.value
     );
-
-    const arr = Storage().getStorage();
+    const arr = Storage.getStorage();
     arr[findIndex(e)]["todoList"].push(newTask);
-    Storage().updateStorage();
-    Storage().checkStorage();
-    TaskView;
+    Storage.updateStorage();
+    Storage.checkStorage();
+    TaskView(e);
   }
 
-  function TaskView(e) {
+  /*function TaskView(e) {
+    console.log("Task view - Work");
     const $addMenu = document.querySelector(".task-add-menu");
     const $tasksList = document.querySelector(".tasks-list");
     $addMenu.style.display = "flex";
@@ -165,14 +186,18 @@ const UI = () => {
     $addMenu.setAttribute("pro-num", findIndex(e));
 
     const taskTitle = document.querySelector(".list-title h1");
-    const value = e.target.textContent;
-    taskTitle.textContent = value;
+    //const value = e.target.textContent;
+    //taskTitle.textContent = value;
 
     //View of ready tasks
 
     const $taskList = document.querySelector("tbody");
+
+    Storage.checkStorage();
+    const arr = Storage.getStorage();
+
+    taskTitle.textContent = arr[findIndex(e)].name;
     $taskList.textContent = "";
-    const arr = Storage().getStorage();
     arr[findIndex(e)]["todoList"].forEach((task, index) => {
       const bookListed = `
       <tr>
@@ -194,9 +219,9 @@ const UI = () => {
 
   //Check storage onLoad
 
-  const generateStorage = (() => {
-    Storage().checkStorage();
-    const values = Storage().getStorage();
+  /*const generateStorage = (() => {
+    Storage.checkStorage();
+    const values = Storage.getStorage();
     ProjectView(values);
   })();
 
@@ -221,9 +246,9 @@ const UI = () => {
       type.addEventListener(typeOfListener, (e) => {
         if ((typeOfEle = "form")) {
           e.preventDefault();
-          callFcn(e);
+          callFcn;
         } else {
-          callFcn(e);
+          callFcn;
         }
       })
     );

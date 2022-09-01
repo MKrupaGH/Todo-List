@@ -1,12 +1,13 @@
-const Task = (name, status, priority, date) => {
-  /*let date =
-    new Date().getDate() +
-    "." +
-    new Date().getMonth() +
-    "." +
-    new Date().getFullYear();*/
+import { v4 as uuidv4 } from "uuid";
+import Project from "./Project";
 
-  return { name, status, priority, date };
+const Task = (name, status, priority, date) => {
+  let id = uuidv4();
+
+  
+
+
+  return { id, name, status, priority, date };
 };
 
 export default Task;
