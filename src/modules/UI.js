@@ -1,8 +1,10 @@
 import Project from "./Project";
 import { Storage } from "./Storage";
 import Task from "./Task";
-
+import addProject from "./AddProject";
 import { v4 as uuidv4 } from "uuid";
+import projectList from "./ProjectList";
+
 
 //nazwa Main js
 // dodac id do Projectu (UUidv4)
@@ -16,10 +18,6 @@ const UI = () => {
         </div>
         <div class='lists'>
             <h2>Project's list</h2>
-            <div class='projects-list'>
-              <form id="projectForm"></form>
-              <div class="projects-container"></div>
-            </div>
         </div>
         <div class='task-menu'>
             <div class='list-title'>
@@ -66,16 +64,8 @@ const UI = () => {
     document.querySelector("body").appendChild(panel);
   })();
 
-  const addProjectView = (() => {
-    const addForm = document.querySelector("#projectForm");
-    console.log();
-    fncForListener("#projectForm", "submit", Project().createProject());
-    addForm.innerHTML = `
-        <input type="text" name="title" id="title" placeholder="Title..." required>
-        <input type="submit" value="Add project"> 
-      `;
-  })();
-
+  addProject()
+projectList().addListContainer()
   
 
   

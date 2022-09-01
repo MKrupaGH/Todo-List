@@ -3,16 +3,6 @@ import { Storage } from "./Storage";
 import UI from "./UI";
 
 const Project = () => {
-  let name;
-  let todoList = [];
-  let id = uuidv4();
-
-  function createProject() {
-    const $title = selectEle("#title");
-    name = $title.value
-    Storage.pushToArr(Project());
-    //clearField($title, value);
-  }
 
   function deleteProject(arr, obj) {
     return arr.filter((project) => project.id !== obj.id);
@@ -22,7 +12,7 @@ const Project = () => {
     let inputEdit = document.createElement("input");
     inputEdit.focus();
     inputEdit.value = Project.name;
-    selectEle('project-to-tasks').replaceWith(inputEdit);
+    selectEle("project-to-tasks").replaceWith(inputEdit);
     inputEdit.focus();
     inputEdit.addEventListener("focusout", (e) => {
       editProject(e.target.value);
@@ -33,51 +23,22 @@ const Project = () => {
     this.name = newName;
   }
 
-  function projectUI(arr) {
-    const container = selectEle(".projects-container");
-    clearField(container, textContent);
-    arr.forEach((obj) => {
-      const newProjectView = document.createElement("div");
-      newProjectView.classList.add("project-view");
-      newProjectView.innerHTML = `
-              <button class="project-to-tasks" >${obj.name}</button>
+  function renderProjects(project) {
+    const newProjectView = document.createElement("div");
+    newProjectView.classList.add("project-view");
+    newProjectView.innerHTML = `
+              <button class="project-to-tasks" >${project.name}</button>
               <button class="delete">Delete</button>
               <button class="edit">Edit</button>
         `;
-
-      container.appendChild(newProjectView);
-    });
-    addEvents();
+    return newProjectView
   }
 
   function addEvents() {
     fncForListener(".delete", "click", deleteProject);
     fncForListener(".edit", "click", editProject);
   }
-
-  //help function
-
-  function selectEle(ele) {
-    return document.querySelectorAll(ele);
-  }
-
-  function fncForListener(typeOfEle, typeOfListener, callFcn) {
-    document.querySelectorAll(typeOfEle).forEach((type) =>
-      type.addEventListener(typeOfListener, (e) => {
-        if ((typeOfEle = "form")) {
-          e.preventDefault();
-          callFcn(e);
-        } else {
-          callFcn(e);
-        }
-      })
-    );
-  }
-
-  function clearField(ele) {
-    ele.value = "";
-  }
-  return { id, name, todoList , createProject };
+  return {renderProjects};
 };
 
 export default Project;
