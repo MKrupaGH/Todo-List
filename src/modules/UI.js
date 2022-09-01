@@ -1,6 +1,9 @@
 import Project from "./Project";
 import { Storage } from "./Storage";
 import Task from "./Task";
+
+//nazwa Main js
+// dodac id do Projectu (UUidv4)
 const UI = () => {
   const loadPage = (() => {
     const panel = document.createElement("div");
@@ -76,6 +79,8 @@ const UI = () => {
     return e.target.parentNode.getAttribute("pro-num");
   }
   //Project UI and Title
+
+  //leci do Project
   function createProject() {
     const $title = document.querySelector("#title");
     //jak zrobic referencje przez nazwe, bez wywolywania do zmiennej?
@@ -115,7 +120,7 @@ const UI = () => {
       ProjectView(Storage.getStorage());
     });
   }
-
+  //leci do konstruktora
   function ProjectView(data) {
     const container = document.querySelector(".projects-container");
     container.textContent = "";
@@ -140,7 +145,8 @@ const UI = () => {
   }
 
   //Tasks UI and func
-
+  //leci do task
+  //do task dodaje id
   function createTask(e) {
     console.log("createTask - work");
     const $taskName = document.querySelector("#taskName");
