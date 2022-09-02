@@ -1,26 +1,38 @@
-import { v4 as uuidv4 } from "uuid";
+import { shared } from "./Shared";
 import { Storage } from "./Storage";
-import UI from "./UI";
+import projectList from "./ProjectList";
+import addTask from "./AddTask";
 
 const Project = () => {
-
-  function deleteProject(arr, obj) {
-    return arr.filter((project) => project.id !== obj.id);
+  function deleteProject(obj) {
+    let arr = Storage.getStorage();
+    arr = arr.filter((project) => project.id != obj.id);
+    Storage.setStorage(arr);
+    Storage.updateStorage();
+    projectList().updateListContainer();
   }
 
-  function editUI() {
+  function editProject(obj, newName) {
+    obj.name = newName;
+    Storage.updateStorage();
+    projectList().updateListContainer();
+  }
+
+  function editUI(obj) {
     let inputEdit = document.createElement("input");
-    inputEdit.focus();
-    inputEdit.value = Project.name;
-    selectEle("project-to-tasks").replaceWith(inputEdit);
+    inputEdit.setAttribute("id", "inputChange");
+    inputEdit.value = obj.name;
+
+    for (const btn of document.querySelectorAll(".project-to-tasks")) {
+      if (btn.textContent === obj.name) {
+        btn.replaceWith(inputEdit);
+      }
+    }
+
     inputEdit.focus();
     inputEdit.addEventListener("focusout", (e) => {
-      editProject(e.target.value);
+      editProject(obj, e.target.value);
     });
-  }
-
-  function editProject(newName) {
-    this.name = newName;
   }
 
   function renderProjects(project) {
@@ -31,14 +43,26 @@ const Project = () => {
               <button class="delete">Delete</button>
               <button class="edit">Edit</button>
         `;
-    return newProjectView
+
+    newProjectView
+      .querySelector(".delete")
+      .addEventListener("click", function () {
+        deleteProject(project);
+      });
+    newProjectView
+      .querySelector(".edit")
+      .addEventListener("click", function () {
+        editUI(project);
+      });
+    newProjectView
+      .querySelector(".project-to-tasks")
+      .addEventListener("click", function () {
+        addTask().addTaskView(project);
+      });
+    return newProjectView;
   }
 
-  function addEvents() {
-    fncForListener(".delete", "click", deleteProject);
-    fncForListener(".edit", "click", editProject);
-  }
-  return {renderProjects};
+  return { renderProjects };
 };
 
 export default Project;

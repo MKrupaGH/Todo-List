@@ -1,6 +1,7 @@
 import { Storage } from "./Storage";
 import { v4 as uuidv4 } from "uuid";
 import { shared } from "./Shared";
+import projectList from "./ProjectList";
 
 const addProject = () => {
   (function addProjectView() {
@@ -19,7 +20,14 @@ const addProject = () => {
     const $title = document.querySelector("#title");
     const id = uuidv4();
     Storage.pushToArr({ name: $title.value, id: id, tasks: [] });
-    Storage.updateStorage()
+    $title.value = "";
+    Storage.updateStorage();
+    
+    if (document.body.contains(document.querySelector(".projects-container"))) {
+      projectList().updateListContainer();
+    } else {
+      projectList().addListContainer();
+    }
   }
 };
 

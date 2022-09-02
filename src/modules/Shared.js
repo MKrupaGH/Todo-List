@@ -2,12 +2,12 @@ export const shared = (() => {
   function fncForListener(typeOfEle, typeOfListener, callFcn) {
     document.querySelectorAll(typeOfEle).forEach((type) =>
       type.addEventListener(typeOfListener, (e) => {
-        if ((typeOfEle = "form")) {
+        if (typeOfEle == 'input[(type = "submit")]') {
           e.preventDefault();
-          callFcn(e);
+          callFcn;
         } else {
           e.preventDefault();
-          callFcn(e);
+          callFcn();
         }
       })
     );

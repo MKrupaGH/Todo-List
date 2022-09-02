@@ -33,111 +33,106 @@
     background-color: var(--lightGrey);
     color: var(--darkGrey);
 
-    
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     h2 {
       text-align: center;
       margin-top: 20px;
       font-size: 1.8rem;
     }
 
-    .projects-list {
+    form {
+      margin: 15px;
+      padding: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      form {
-        margin: 15px;
-        padding: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        border: 2px solid var(--white);
-        background-color: var(--white);
-        border-radius: 10px;
+      gap: 10px;
+      border: 2px solid var(--white);
+      background-color: var(--white);
+      border-radius: 10px;
 
-        input[type="text"] {
-          padding: 5px;
-          background-color: var(--lightGrey);
+      input[type="text"] {
+        padding: 5px;
+        background-color: var(--lightGrey);
+        border: none;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        width: 80%;
+
+        &:focus {
           border: none;
-          border-radius: 5px;
-          font-size: 1.2rem;
-          width: 80%;
-
-          &:focus {
-            border: none;
-            background-color: transparent;
-            resize: none;
-            outline: none;
-            background-color: var(--white);
-          }
+          background-color: transparent;
+          resize: none;
+          outline: none;
+          background-color: var(--white);
         }
+      }
 
-        input[type="submit"] {
-          padding: 10px;
-          background-color: var(--lightGrey);
+      input[type="submit"] {
+        padding: 10px;
+        background-color: var(--lightGrey);
+        border: none;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        color: var(--darkGrey);
+
+        &:hover {
+          scale: 1.1;
+          cursor: pointer;
+        }
+      }
+    }
+    .projects-container {
+      max-height: calc(100vh - 100px - 50px - 107px - 48px - 40px);
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .project-view {
+        display: grid;
+        grid-template: 1fr 1fr / 1fr 1fr;
+        gap: 10px;
+        width: 214px;
+        padding: 10px;
+
+        .project-to-tasks,
+        .delete,
+        .edit,
+        #inputChange {
+          text-align: center;
+          grid-area: 1/1/2/3;
           border: none;
-          border-radius: 5px;
-          font-size: 1.2rem;
+          background-color: var(--white);
           color: var(--darkGrey);
+          font-size: 1.6rem;
+          border-radius: 10px;
 
           &:hover {
             scale: 1.1;
             cursor: pointer;
           }
         }
+
+        .delete,
+        .edit {
+          grid-area: 2/1/3/2;
+          background-color: lightcoral;
+          font-size: 1.3rem;
+        }
+
+        .edit {
+          grid-area: 2/2/3/3;
+          background-color: yellowgreen;
+        }
       }
-      .projects-container {
-        max-height: calc(100vh - 100px - 50px - 107px - 48px - 40px);
-        overflow-y: scroll;
 
-        &::-webkit-scrollbar {
-          display: none;
-        }
-
-        .project-view {
-          display: grid;
-          grid-template: 1fr 1fr / 1fr 1fr;
-          gap: 10px;
-          width: 214px;
-          padding: 10px;
-
-          .project-to-tasks,
-          .delete,
-          .edit,
-          #inputChange {
-            text-align: center;
-            grid-area: 1/1/2/3;
-            border: none;
-            background-color: var(--white);
-            color: var(--darkGrey);
-            font-size: 1.6rem;
-            border-radius: 10px;
-
-            &:hover {
-              scale: 1.1;
-              cursor: pointer;
-            }
-          }
-
-          .delete,
-          .edit {
-            grid-area: 2/1/3/2;
-            background-color: lightcoral;
-            font-size: 1.3rem;
-          }
-
-          .edit {
-            grid-area: 2/2/3/3;
-            background-color: yellowgreen;
-          }
-        }
-
-        .project-view:last-child {
-          margin-bottom: 20px;
-        }
+      .project-view:last-child {
+        margin-bottom: 20px;
       }
     }
   }
@@ -282,7 +277,7 @@
           color: var(--darkGrey);
         }
 
-        td{
+        td {
           min-width: 100px;
         }
       }

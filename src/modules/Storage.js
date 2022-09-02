@@ -5,6 +5,10 @@ export const Storage = (() => {
     return arrStorage;
   }
 
+  function setStorage(arr) {
+    arrStorage = arr;
+  }
+
   function pushToArr(project) {
     arrStorage.push(project);
   }
@@ -23,6 +27,7 @@ export const Storage = (() => {
 
   return {
     getStorage,
+    setStorage,
     pushToArr,
     updateStorage,
     checkStorage,

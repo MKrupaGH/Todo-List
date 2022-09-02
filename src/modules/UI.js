@@ -1,10 +1,8 @@
 import Project from "./Project";
 import { Storage } from "./Storage";
-import Task from "./Task";
 import addProject from "./AddProject";
 import { v4 as uuidv4 } from "uuid";
 import projectList from "./ProjectList";
-
 
 //nazwa Main js
 // dodac id do Projectu (UUidv4)
@@ -20,42 +18,6 @@ const UI = () => {
             <h2>Project's list</h2>
         </div>
         <div class='task-menu'>
-            <div class='list-title'>
-              <h1></h1>
-            </div>
-            <div class="task-add-menu" style="display:none">
-              <form id="myForm">
-                <input type="text" id="taskName" placeholder="Task name..." name="name" required>
-                <div class="checkBox">
-                  <label for="status">Done</label>
-                  <input type="checkbox" id="status" name='status'>
-                </div>
-                
-                <select name="priority" id="priority" required>
-                  <option value="urgent">Urgent</option>
-                  <option value="medium">Medium</option>
-                  <option value="unimportant">Unimportant</option>
-                </select>
-                <input type="date" id="date" name="date">
-                
-              </form>
-              <input type='submit' value='Add task' form="myForm">
-            </div>
-            <div class="tasks-list" style="display:none">
-              <table>
-                  <thead>
-                      <th>Name</th>
-                      <th>Status</th>
-                      <th>Priority</th>
-                      <th>Date</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
-                  </thead>
-                  <tbody>
-
-                  </tbody>
-              </table>
-            </div>
         </div>
         <div class="footer">
             <p>Created by Marek Krupa!</p>
@@ -64,84 +26,8 @@ const UI = () => {
     document.querySelector("body").appendChild(panel);
   })();
 
-  addProject()
-projectList().addListContainer()
-  
-
-  
-
-  //help function
-
-  /*function findIndex(e) {
-    return e.target.parentNode.getAttribute("pro-num");
-  }
-  //Project UI and Title
-
-  //leci do Project
-  /*function createProject() {
-    const $title = document.querySelector("#title");
-
-    Storage.pushToArr(Project($title.value));
-
-    $title.value = "";
-
-    Storage.updateStorage();
-
-    Storage.checkStorage();
-
-    ProjectView(Storage.getStorage());
-  }
-
-  /*function deleteProject(e) {
-    const arr = Storage.getStorage();
-    arr.splice(findIndex(e), 1);
-
-    e.target.parentElement.remove();
-    Storage.updateStorage();
-    Storage.checkStorage();
-    ProjectView(Storage.getStorage());
-  }
-
-  /*function editProject(e) {
-    let inputEdit = document.createElement("input");
-    inputEdit.focus();
-    inputEdit.setAttribute("id", "inputChange");
-    inputEdit.value = e.target.parentElement.firstElementChild.textContent;
-    e.target.parentElement.firstElementChild.replaceWith(inputEdit);
-    inputEdit.focus();
-    inputEdit.addEventListener("focusout", (e) => {
-      console.log(e.target.parentNode.getAttribute("pro-num"));
-      const arr = Storage.getStorage();
-      arr[findIndex(e)]["name"] = e.target.value;
-      Storage.updateStorage();
-      Storage.checkStorage();
-      TaskView(e);
-      ProjectView(Storage.getStorage());
-    });
-  }
-  //leci do konstruktora
-  /*function ProjectView(data) {
-    const container = document.querySelector(".projects-container");
-    container.textContent = "";
-    data.forEach((obj, index) => {
-      const newProjectView = document.createElement("div");
-      newProjectView.classList.add("project-view");
-      newProjectView.setAttribute("pro-num", `${index}`);
-      newProjectView.innerHTML = `
-              <button class="project-to-tasks" >${obj.name}</button>
-              <button class="delete">Delete</button>
-              <button class="edit">Edit</button>
-        `;
-
-      container.appendChild(newProjectView);
-    });
-
-    fncForListener(".project-to-tasks", "click", TaskView);
-    fncForListener(".delete", "click", deleteProject);
-    fncForListener(".edit", "click", editProject);
-    fncForListener("#myForm", "submit", createTask);
-    Storage.checkStorage();
-  }
+  addProject();
+  projectList().addListContainer();
 
   //Tasks UI and func
   //leci do task
@@ -205,44 +91,7 @@ projectList().addListContainer()
 
       $taskList.insertAdjacentHTML("afterbegin", bookListed);
     });
-  }
-
-  //Check storage onLoad
-
-  /*const generateStorage = (() => {
-    Storage.checkStorage();
-    const values = Storage.getStorage();
-    ProjectView(values);
-  })();
-
-  //Event listeners
-
-  /*const addEventListeners = (() => {
-    const $form = document
-      .querySelector("form")
-      .addEventListener("submit", (e) => {
-        e.preventDefault();
-        createProject();
-      });
-    const $projectBtns = document
-      .querySelectorAll(".project-to-tasks")
-      .forEach((btn) => {
-        btn.addEventListener("click", TaskView);
-      });
-  })();*/
-
-  function fncForListener(typeOfEle, typeOfListener, callFcn) {
-    document.querySelectorAll(typeOfEle).forEach((type) =>
-      type.addEventListener(typeOfListener, (e) => {
-        if ((typeOfEle = "form")) {
-          e.preventDefault();
-          callFcn;
-        } else {
-          callFcn;
-        }
-      })
-    );
-  }
+  }*/
 };
 
 export default UI;
