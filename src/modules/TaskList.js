@@ -3,12 +3,12 @@ import { shared } from "./Shared";
 import Task from "./Task";
 const taskList = () => {
   Storage.checkStorage();
-  const arr = Storage.getStorage();
 
-  function addTaskContainer(project) {
+  function addTaskContainer(tasks) {
     const $taskField = document.querySelector(".task-menu");
+
     const taskContainer = document.createElement("div");
-    taskContainer.setAttribute("class", ".tasks-list");
+    taskContainer.setAttribute("class", "tasks-list");
 
     taskContainer.innerHTML = `<table>
                   <thead>
@@ -25,18 +25,22 @@ const taskList = () => {
               </table>`;
     const container = taskContainer.querySelector("tbody");
 
-    arr.forEach((obj) => {
-      if (obj.id === project.id) {
-        obj.tasks.forEach((task) => {
-          container.appendChild(Task().renderTasks(task));
-        });
-      }
+    tasks.forEach((task) => {
+      container.appendChild(Task().renderTasks(task));
     });
 
     $taskField.appendChild(taskContainer);
   }
 
-  return { addTaskContainer };
+  function updateTaskContainer(tasks) {
+    const container = document.querySelector("tbody");
+    container.textContent = "";
+    tasks.forEach((task) => {
+      container.appendChild(Task().renderTasks(task));
+    });
+  }
+
+  return { addTaskContainer, updateTaskContainer };
 };
 
 export default taskList;

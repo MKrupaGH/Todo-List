@@ -34,12 +34,20 @@ const addTask = () => {
       .querySelector("#submitTask")
       .addEventListener("click", function (e) {
         e.preventDefault();
-        updateLocalStorage(project);
+        updateLocalStorage(project.id);
       });
     $taskField.appendChild(tasksAdd);
+    checkLocalStorage(project.id);
   }
 
-  function updateLocalStorage(project) {
+  function checkLocalStorage(projectID) {
+    const tasks = Storage.getProjectById(projectID)[0].tasks;
+    if (tasks.length !== 0) {
+      taskList().addTaskContainer(tasks);
+    }
+  }
+
+  function updateLocalStorage(projectID) {
     const $taskName = document.querySelector("#taskName");
     const $status = document.querySelector("#status");
     const $priority = document.querySelector("#priority");
@@ -52,10 +60,17 @@ const addTask = () => {
       date: $date.value,
       id: id,
     };
-    project.tasks.push(task);
+
+    const tasks = Storage.getProjectById(projectID)[0].tasks;
+
+    tasks.push(task);
     Storage.updateStorage();
 
-    taskList().addTaskContainer(project);
+    if (document.body.contains(document.querySelector(".tasks-list"))) {
+      taskList().updateTaskContainer(tasks);
+    } else {
+      taskList().addTaskContainer(tasks);
+    }
   }
 
   return { addTaskView };

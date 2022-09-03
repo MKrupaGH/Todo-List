@@ -13,6 +13,10 @@ export const Storage = (() => {
     arrStorage.push(project);
   }
 
+  function getProjectById(id) {
+    return arrStorage.filter((obj) => obj.id === id);
+  }
+
   function updateStorage() {
     localStorage.setItem("storage", JSON.stringify(arrStorage));
   }
@@ -29,6 +33,7 @@ export const Storage = (() => {
     getStorage,
     setStorage,
     pushToArr,
+    getProjectById,
     updateStorage,
     checkStorage,
   };
