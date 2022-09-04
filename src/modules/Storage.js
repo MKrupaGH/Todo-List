@@ -9,12 +9,33 @@ export const Storage = (() => {
     arrStorage = arr;
   }
 
+  function setNewElement(taskArr, TaskID) {
+    let project;
+    arrStorage.filter((obj) =>
+      obj.tasks.filter((task) => {
+        if (task.id === TaskID) project = obj;
+      })
+    );
+    project.tasks = taskArr;
+    Storage.updateStorage();
+  }
+
   function pushToArr(project) {
     arrStorage.push(project);
   }
 
   function getProjectById(id) {
     return arrStorage.filter((obj) => obj.id === id);
+  }
+
+  function getTaskById(id) {
+    let tasks;
+    arrStorage.filter((obj) =>
+      obj.tasks.filter((task) => {
+        if (task.id === id) tasks = obj.tasks;
+      })
+    );
+    return tasks;
   }
 
   function updateStorage() {
@@ -33,7 +54,9 @@ export const Storage = (() => {
     getStorage,
     setStorage,
     pushToArr,
+    setNewElement,
     getProjectById,
+    getTaskById,
     updateStorage,
     checkStorage,
   };

@@ -12,8 +12,9 @@ const Project = () => {
     projectList().updateListContainer();
   }
 
-  function editProject(obj, newName) {
-    obj.name = newName;
+  function editProject(project, newName) {
+    const projectObj = Storage.getProjectById(project.id)
+    projectObj[0].name = newName;
     Storage.updateStorage();
     projectList().updateListContainer();
   }
