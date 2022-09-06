@@ -263,6 +263,12 @@
       margin-top: 20px;
       display: flex;
       justify-content: center;
+      max-height: calc(100vh - 100px - 60px - 171px - 80px);
+      overflow-y: scroll;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
       table {
         width: 100%;
         table-layout: fixed;
